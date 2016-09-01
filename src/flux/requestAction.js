@@ -68,7 +68,7 @@ export class RequestAction {
                 let value = match[1];
 
                 if (data.template[value] !== undefined) {
-                    data.url.replace(key, data.template[value]);
+                    data.url = data.url.replace(key, data.template[value]);
                 }
             }
 
