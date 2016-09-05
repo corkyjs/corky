@@ -32,38 +32,37 @@ export class RequestAction {
                 data.template = {};
             } else {
                 data.template = payload.template;
-                payload.template = undefined;
+                delete payload.template;
             }
 
             if (payload.url === undefined) {
                 data.url = this.url;
             } else {
                 data.url = payload.url;
-                payload.url = undefined;
+                delete payload.url;
             }
 
             if (payload.requestType === undefined) {
                 data.requestType = this.requestType;
             } else {
                 data.requestType = payload.requestType;
-                payload.requestType = undefined;
+                delete payload.requestType;
             }
 
             if (payload.options === undefined) {
                 data.options = this.options;
             } else {
                 data.options = payload.options;
-                payload.options = undefined;
+                delete payload.options;
             }
 
             if (this.url === undefined) throw new Error(`Parameter url is missing in RequestAction: ${this.type}.`);
             if (this.requestType === undefined) throw new Error(`Parameter requestType is missing in RequestAction: ${this.type}.`);
 
-            var regex = /{(.*)}/g;
+            var regex = /{(.*?)}/g;
             let match = [];
 
             while (match = regex.exec(data.url)) {
-
                 let key = match[0];
                 let value = match[1];
 

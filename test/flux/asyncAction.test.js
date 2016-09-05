@@ -32,7 +32,7 @@ describe('AsyncAction', () => {
 
         payloadedAction(addToResult);
 
-        assert(result, [{ type: typeRequest, payload: payload }, { type: typeResponse, payload: 2 }]);
+        assert.deepEqual(result, [{ type: typeRequest, payload: payload }, { type: typeResponse, payload: 2 }]);
 
     });
 
@@ -48,7 +48,7 @@ describe('AsyncAction', () => {
 
         payloadedAction(addToResult);
 
-        assert(result, [{ type: typeRequest, payload: payload }, { type: typeResponse, payload: 2 }]);
+        assert.deepEqual(result, [{ type: typeRequest, payload: payload }, { type: typeResponse, payload: 2 }]);
 
     });
 
@@ -65,7 +65,7 @@ describe('AsyncAction', () => {
 
         payloadedAction(addToResult);
 
-        assert(result, [{ type: typeRequest, payload: payload }, { type: typeError, payload: error }]);
+        assert.deepEqual(result, [{ type: typeRequest, payload: payload }, { type: typeError, payload: error }]);
 
     });
 

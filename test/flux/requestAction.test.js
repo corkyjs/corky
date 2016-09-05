@@ -54,7 +54,7 @@ describe('RequestAction', () => {
 
     it('createTemplateRequestAction', (done) => {
 
-        var action = new RequestAction.RequestAction(type, getUrl, requestType);
+        var action = new RequestAction.RequestAction(type, templateUrl, requestType);
 
         var payloadedAction = action.payload({ template: { post: 'post', host: '127.0.0.1:3000' } });
         var result = [];
@@ -67,7 +67,7 @@ describe('RequestAction', () => {
 
 
         setTimeout(function () {
-            assert(result, [{ type: typeRequest, payload: undefined }, { type: typeResponse, payload: response }]);
+            assert.deepEqual(result, [{ type: typeRequest, payload: {data: {}, query: {}} }, { type: typeResponse, payload: response }]);
             done();
         }, 100);
 

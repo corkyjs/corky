@@ -11,7 +11,7 @@ describe('Action', () => {
     it('createAction', () => {
         var action = new Action(type);
         var payloadedAction = action.payload(payload);
-        assert(payloadedAction, { type: type, payload: payload });
+        assert.deepEqual(payloadedAction, { type: type, payload: payload });
     });
 
 
