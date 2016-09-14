@@ -2,21 +2,18 @@ import * as Redux from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import reduxCatch from 'redux-catch';
+import {reducer} from './global/reducer'
 const objectAssign = require('object-assign');
 
 
 export class Store {
 
 
-    constructor(reducer) {
+    constructor(reducers) {
 
         var rootReducer;
-
-        if (typeof (reducer) === 'object') {
-            rootReducer = Redux.combineReducers(reducer);
-        } else {
-            rootReducer = reducer;
-        }
+        reducers.global = reducer;
+        rootReducer = Redux.combineReducers(reducers);
 
         function errorHandler(error, getState) {
             console.error(error);

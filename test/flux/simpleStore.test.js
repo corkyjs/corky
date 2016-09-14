@@ -3,7 +3,7 @@ import { Action } from '../../src/flux/action';
 import { Store } from '../../src/flux/store';
 import { assert } from 'chai';
 
-describe('SimpleStore', function () {
+describe('SimpleStore', () => {
 
     const initialState = {
         counter: 0
@@ -29,14 +29,14 @@ describe('SimpleStore', function () {
         }
     ], initialState);
 
-    const store = new Store(testReducer);
+    const store = new Store({test: testReducer});
  
     store.dispatch(increment);
     store.dispatch(increment);
     store.dispatch(decrement);
 
-    it('getState', function () {
-        assert.deepEqual(store.getState(), { counter: 1});
+    it('getState', () => {
+        assert.deepEqual(store.getState(), {test: { counter: 1}, global: {}});
     });
 
 });

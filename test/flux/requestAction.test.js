@@ -11,7 +11,7 @@ describe('RequestAction', () => {
 
     const response = { "id": 1, "title": "json-server", "author": "typicode" };
 
-    server.get('/post', function (req, res) {
+    server.get('/post', (req, res) => {
         res.jsonp(response);
     })
     server.use(middlewares);
@@ -38,7 +38,7 @@ describe('RequestAction', () => {
         var payloadedAction = action.payload();
         var result = [];
 
-        var addToResult = function (action) {
+        var addToResult = (action) => {
             result.push(action);
         }
 
@@ -59,7 +59,7 @@ describe('RequestAction', () => {
         var payloadedAction = action.payload({ template: { post: 'post', host: '127.0.0.1:3000' } });
         var result = [];
 
-        var addToResult = function (action) {
+        var addToResult = (action) => {
             result.push(action);
         }
 
@@ -80,14 +80,14 @@ describe('RequestAction', () => {
         var payloadedAction = action.payload();
         var result = [];
 
-        var addToResult = function (action) {
+        var addToResult = (action) => {
             result.push(action);
         }
 
         payloadedAction(addToResult);
 
 
-        setTimeout(function () {
+        setTimeout(() => {
             assert.deepEqual(result[0], { type: typeRequest, payload: { data: {}, query: {} } });
             assert.deepEqual(result[1].type, typeError);
             assert.deepEqual(result[1].payload !== undefined, true);

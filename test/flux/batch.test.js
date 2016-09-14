@@ -61,11 +61,11 @@ describe('BatchRequestAction', function () {
         ]);
 
 
-        const store = new Store(testReducer);
+        const store = new Store({test: testReducer});
         store.dispatch(batch.payload({ abc: 3}));
 
         setTimeout(function () {
-            assert.deepEqual(store.getState(), { response1: response1, response2: response2 });
+            assert.deepEqual(store.getState(), {test: { response1: response1, response2: response2 }, global: {}});
             done();
         }, 100);
     });
@@ -111,12 +111,12 @@ describe('BatchAction', function () {
         }
     ], initialState);
 
-    const store = new Store(testReducer);
+    const store = new Store({test: testReducer});
     store.dispatch(batch);
 
-    it('getState', function (done) {
-        setTimeout(function () {
-            assert.deepEqual(store.getState(), { counter: 3 });
+    it('getState', (done) => {
+        setTimeout(() => {
+            assert.deepEqual(store.getState(), {test:{ counter: 3 }, global: {}});
             done();
         }, 100);
     });

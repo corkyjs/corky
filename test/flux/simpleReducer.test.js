@@ -1,6 +1,5 @@
 import { Reducer } from '../../src/flux/reducer';
 import { Action } from '../../src/flux/action';
-import { Store } from '../../src/flux/store';
 import { assert } from 'chai';
 
 

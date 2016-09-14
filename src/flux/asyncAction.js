@@ -21,6 +21,7 @@ export class AsyncAction {
 
     payload(...args) {
         return (dispatch) => {
+
             dispatch(this.request.payload(...args));
 
             this.asyncFunction(this.reduce(...args), (err, res) => {

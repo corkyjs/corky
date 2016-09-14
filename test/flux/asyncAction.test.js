@@ -26,7 +26,7 @@ describe('AsyncAction', () => {
 
         var result = [];
 
-        var addToResult = function (action) {
+        var addToResult = (action) => {
             result.push(action);
         }
 
@@ -42,7 +42,7 @@ describe('AsyncAction', () => {
         var payloadedAction = action.payload(true, 1);
         var result = [];
 
-        var addToResult = function (action) {
+        var addToResult = (action) => {
             result.push(action);
         }
 
@@ -59,7 +59,7 @@ describe('AsyncAction', () => {
 
         var result = [];
 
-        var addToResult = function (action) {
+        var addToResult = (action) => {
             result.push(action);
         }
 
@@ -75,7 +75,7 @@ describe('AsyncAction', () => {
         var payloadedAction = action.payload(true, 1);
         var result = [];
 
-        var addToResult = function (action) {
+        var addToResult = (action) => {
             result.push(action);
         }
 

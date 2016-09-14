@@ -50,15 +50,14 @@ describe('AsyncStore', () => {
         }
     ], initialState);
 
-    var store = new Store(testReducer);
+    var store = new Store({test: testReducer});
 
     store.dispatch(increment.payload(1));
     store.dispatch(increment.payload(2));
     store.dispatch(decrement.payload(2));
 
-    it('getState', function () {
-        assert.deepEqual(store.getState(), { counter: 1});
+    it('getState', () => {
+        assert.deepEqual(store.getState(), { test: {counter: 1}, global: {} });
     });
-
 
 });

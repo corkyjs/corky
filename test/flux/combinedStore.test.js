@@ -60,7 +60,7 @@ describe('CombinedStore', () => {
     store.dispatch(logName.payload());
 
     it('getState', () => {
-        assert.deepEqual(store.getState(), {math: { counter: 1}, person: {name: 'Corky'}});
+        assert.deepEqual(store.getState(), { global: {}, math: { counter: 1}, person: {name: 'Corky'}});
     });
 
 });
