@@ -21,18 +21,16 @@ export class AsyncAction {
 
     payload(...args) {
         return (dispatch) => {
-
             dispatch(this.request.payload(...args));
-
             this.asyncFunction(this.reduce(...args), (err, res) => {
                 if (err !== null) {
                     dispatch(this.error.payload(err));
+                    if(this.afterError) this.afterError(dispatch, err);
                 } else {
                     dispatch(this.response.payload(res));
+                    if(this.afterResponse) this.afterResponse(dispatch);
                 }
             });
         }
-
     }
-
 }

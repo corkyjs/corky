@@ -78,8 +78,10 @@ export class RequestAction {
                 .end((err, res) => {
                     if (err !== null) {
                         dispatch(this.error.payload(err));
+                        if (this.afterError) this.afterError(dispatch);
                     } else {
                         dispatch(this.response.payload(res.body));
+                        if (this.afterResponse) this.afterResponse(dispatch);
                     }
                 });
         }

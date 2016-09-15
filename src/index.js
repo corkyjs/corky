@@ -30,11 +30,13 @@ export var Corky = {
         Action,
         AsyncAction,
         BatchAction,
+        Global:{
+            Requests
+        },
         Reducer,
         RequestAction,
         Service
     }
-
 }
 
 export default Corky;

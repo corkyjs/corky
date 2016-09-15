@@ -17,10 +17,10 @@ export class Store {
 
         function errorHandler(error, getState) {
             console.error(error);
-            console.debug('current state', getState());
+            console.error('current state', getState());
         }
 
-        const middleware = [reduxCatch(errorHandler), thunk, logger()];
+        const middleware = [thunk];
 
         var createStoreWithMiddleware = Redux.compose(
             Redux.applyMiddleware(
