@@ -5,7 +5,7 @@ import { Reducer } from '../../src/flux/reducer';
 import { Store } from '../../src/flux/store';
 import { assert } from 'chai';
 
-describe.only('PipelineAction', () => {
+describe('PipelineAction', () => {
 
     const asyncFunction = (payload, callback) => {
         callback(null, payload);
