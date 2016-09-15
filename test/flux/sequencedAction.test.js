@@ -23,8 +23,8 @@ describe('SequencedAction', () => {
 
     const errorAction = new AsyncAction('ERROR_GENERATED', asyncErrorFunction);
 
-    const pipelineAction = new SequencedAction('PIPE', [addAction, add1Action, add2Action], errorHandler);
-    const pipeline1Action = new SequencedAction('PIPE1', [addAction, add1Action, errorAction], errorHandler);
+    const sequencedAction = new SequencedAction('SEQUENCE', [addAction, add1Action, add2Action], errorHandler);
+    const sequenced1Action = new SequencedAction('SEQUENCE1', [addAction, add1Action, errorAction], errorHandler);
 
     const initialState = {
         counter: 0
@@ -62,7 +62,7 @@ describe('SequencedAction', () => {
 
         let store = new Store({ test: testReducer });
 
-        store.dispatch(pipelineAction.payload([{number: 1},{number: 15},{number: 5}]));
+        store.dispatch(sequencedAction.payload([{number: 1},{number: 15},{number: 5}]));
 
         setTimeout(() => {
             assert.deepEqual(store.getState(), {global: {}, test: {counter: 21}});
@@ -74,7 +74,7 @@ describe('SequencedAction', () => {
 
         let store = new Store({ test: testReducer });
 
-        store.dispatch(pipeline1Action.payload([{number: 1},{number: 15},"error"]));
+        store.dispatch(sequenced1Action.payload([{number: 1},{number: 15},"error"]));
 
         setTimeout(() => {
             assert.deepEqual(store.getState(), {global: {}, test: {counter: 16, error: "error"}});
