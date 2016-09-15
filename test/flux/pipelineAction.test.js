@@ -11,7 +11,7 @@ describe.only('PipelineAction', () => {
         callback(null, payload);
     }
 
-    const asyncErrorFunction = (payload, callback) => {
+    const asyncErrorFunction = (error, callback) => {
         callback(error, null);
     }
 
@@ -21,7 +21,10 @@ describe.only('PipelineAction', () => {
     const add1Action = new AsyncAction('ADD1', asyncFunction);
     const add2Action = new AsyncAction('ADD2', asyncFunction);
 
+    const errorAction = new AsyncAction('ERROR_GENERATED', asyncErrorFunction);
+
     const pipelineAction = new PipelineAction('PIPE', [addAction, add1Action, add2Action], errorHandler);
+    const pipeline1Action = new PipelineAction('PIPE1', [addAction, add1Action, errorAction], errorHandler);
 
     const initialState = {
         counter: 0
@@ -32,31 +35,49 @@ describe.only('PipelineAction', () => {
         {
             action: addAction.request,
             reduce: (state, payload) => {
-                console.log(payload);
+                state.counter += payload.number;
             }
         },
         {
             action: add1Action.request,
             reduce: (state, payload) => {
-                console.log(payload);
+                state.counter += payload.number;
             }
         },
         {
             action: add2Action.request,
             reduce: (state, payload) => {
-                console.log(payload);
+                state.counter += payload.number;
             }
         },
+        {
+            action: errorHandler,
+            reduce: (state, payload) =>{
+                state.error  = payload;
+            }
+        }
     ], initialState);
 
-    var store = new Store({ test: testReducer });
+    it('Simple', (done) => {
 
-    it('simpletest', (done) => {
+        let store = new Store({ test: testReducer });
 
-        store.dispatch(pipelineAction.payload({a: 3}));
+        store.dispatch(pipelineAction.payload([{number: 1},{number: 15},{number: 5}]));
 
         setTimeout(() => {
-            assert.deepEqual(store.getState(), {global: {}});
+            assert.deepEqual(store.getState(), {global: {}, test: {counter: 21}});
+            done();
+        }, 100);
+    });
+
+    it('Error', (done) => {
+
+        let store = new Store({ test: testReducer });
+
+        store.dispatch(pipeline1Action.payload([{number: 1},{number: 15},"error"]));
+
+        setTimeout(() => {
+            assert.deepEqual(store.getState(), {global: {}, test: {counter: 16, error: "error"}});
             done();
         }, 100);
     });

@@ -1,3 +1,5 @@
+import { Action } from './action';
+
 export class PipelineAction {
 
     constructor(type, actions, errorHandlingAction, payloadReducer) {
@@ -5,6 +7,8 @@ export class PipelineAction {
         this.actions = actions;
         this.payloadReducer = payloadReducer;
         this.errorHandler = errorHandlingAction;
+        this.start = new Action(`${type}.START`);
+        this.end = new Action(`${type}.END`);
     }
 
     reduce(...args) {
@@ -15,15 +19,19 @@ export class PipelineAction {
         }
     }
 
-    payload(...args) {
+    payload(...args) { 
         return (dispatch) => {
+            dispatch(this.start.payload(...args));
             if(this.actions && this.errorHandler) {
                 for (var i = 0; i < this.actions.length; i++) { 
+                    let actionNo = i;
                     if( i < this.actions.length-1) {
-                        let a = i;
-                        this.actions[i].afterResponse = (dispatch) => {
-                            console.log(a, this.actions[a+1]);
-                            dispatch(this.actions[a+1].payload(...args));
+                        this.actions[actionNo].afterResponse = (dispatch) => {
+                            dispatch(this.actions[actionNo+1].payload(this.reduce(...args)[actionNo+1]));
+                        }
+                    } else {
+                        this.actions[actionNo].afterResponse = (dispatch) => {
+                            dispatch(this.end.payload(...args));
                         }
                     }
                     this.actions[i].afterError = (dispatch, err) => {
@@ -32,7 +40,7 @@ export class PipelineAction {
 
                 }
             }
-            dispatch(this.actions[0].payload(...args));
+            dispatch(this.actions[0].payload(this.reduce(...args)[0]));
         }
     }
 

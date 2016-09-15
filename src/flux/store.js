@@ -20,7 +20,7 @@ export class Store {
             console.error('current state', getState());
         }
 
-        const middleware = [thunk];
+        const middleware = [reduxCatch(errorHandler), thunk];
 
         var createStoreWithMiddleware = Redux.compose(
             Redux.applyMiddleware(
