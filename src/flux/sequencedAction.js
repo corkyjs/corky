@@ -1,6 +1,6 @@
 import { Action } from './action';
 
-export class PipelineAction {
+export class SequencedAction {
 
     constructor(type, actions, errorHandlingAction, payloadReducer) {
         this.type = type;

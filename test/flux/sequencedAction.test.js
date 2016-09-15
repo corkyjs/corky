@@ -1,11 +1,11 @@
 import { AsyncAction } from '../../src/flux/asyncAction';
-import { PipelineAction } from '../../src/flux/pipelineAction';
+import { SequencedAction } from '../../src/flux/sequencedAction';
 import { Action } from '../../src/flux/action';
 import { Reducer } from '../../src/flux/reducer';
 import { Store } from '../../src/flux/store';
 import { assert } from 'chai';
 
-describe('PipelineAction', () => {
+describe('SequencedAction', () => {
 
     const asyncFunction = (payload, callback) => {
         callback(null, payload);
@@ -23,8 +23,8 @@ describe('PipelineAction', () => {
 
     const errorAction = new AsyncAction('ERROR_GENERATED', asyncErrorFunction);
 
-    const pipelineAction = new PipelineAction('PIPE', [addAction, add1Action, add2Action], errorHandler);
-    const pipeline1Action = new PipelineAction('PIPE1', [addAction, add1Action, errorAction], errorHandler);
+    const pipelineAction = new SequencedAction('PIPE', [addAction, add1Action, add2Action], errorHandler);
+    const pipeline1Action = new SequencedAction('PIPE1', [addAction, add1Action, errorAction], errorHandler);
 
     const initialState = {
         counter: 0
