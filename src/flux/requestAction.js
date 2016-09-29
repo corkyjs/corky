@@ -21,8 +21,6 @@ export class RequestAction {
         if (this.url === undefined) throw new Error(`Parameter url is missing in RequestAction: ${this.type}.`);
         if (this.requestType === undefined) throw new Error(`Parameter requestType is missing in RequestAction: ${this.type}.`);
 
-
-
         return (dispatch) => {
             dispatch(this.request.payload(payload));
 
@@ -78,10 +76,10 @@ export class RequestAction {
                 .end((err, res) => {
                     if (err !== null) {
                         dispatch(this.error.payload(err));
-                        if (this.afterError) this.afterError(dispatch);
+                        if (this.afterError) this.afterError(dispatch, err);
                     } else {
                         dispatch(this.response.payload(res.body));
-                        if (this.afterResponse) this.afterResponse(dispatch);
+                        if (this.afterResponse) this.afterResponse(dispatch, res.body);
                     }
                 });
         }

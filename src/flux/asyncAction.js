@@ -28,7 +28,7 @@ export class AsyncAction {
                     if(this.afterError) this.afterError(dispatch, err);
                 } else {
                     dispatch(this.response.payload(res));
-                    if(this.afterResponse) this.afterResponse(dispatch);
+                    if(this.afterResponse) this.afterResponse(dispatch, res);
                 }
             });
         }

@@ -26,11 +26,11 @@ export class SequencedAction {
                 for (var i = 0; i < this.actions.length; i++) { 
                     let actionNo = i;
                     if( i < this.actions.length-1) {
-                        this.actions[actionNo].afterResponse = (dispatch) => {
+                        this.actions[actionNo].afterResponse = (dispatch, res) => {
                             dispatch(this.actions[actionNo+1].payload(this.reduce(...args)[actionNo+1]));
                         }
                     } else {
-                        this.actions[actionNo].afterResponse = (dispatch) => {
+                        this.actions[actionNo].afterResponse = (dispatch, res) => {
                             dispatch(this.end.payload(...args));
                         }
                     }
