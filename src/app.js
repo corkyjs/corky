@@ -6,8 +6,8 @@ import * as Riot from 'riot';
 export default class App {
 
     setRouter(routes, initialAdrress = '/', options) {
-        if (options != undefined) this.router.configure(options);
         this.router = new Router(routes);
+        if (options != undefined) this.router.configure(options);
         this.router.init(initialAdrress);
         var riotRedux = function riotRedux(router) {
 
