@@ -11,7 +11,49 @@ function extend(d, element) {
 
 export function registerService(element, service) {
     element.prototype.load = function () {
-        this.mixin(service);
+      //  this.mixin(service);
+         var actions = service.actions;
+        var selector = service.selector;
+        var store = this.store;
+        var isContainer = service.isContainer;
+        service.ensureSubscription(store);
+         var _this = this;
+        if(service.isContainer){
+            store.subscribe( function(){
+                _this.update();
+            });
+        }
+        this.on('mount', function () {           
+            if (service.selectorData !== undefined) {
+                Object.keys(service.selectorData).forEach(function (key) {
+                    _this[key] = service.selectorData[key];
+                });
+            }
+            if (actions !== undefined) {
+                Object.keys(actions).forEach(function (actionName) {
+                    _this[actionName] = function () {
+                        var args = [];
+                        for (var _i = 0; _i < arguments.length; _i++) {
+                            args[_i - 0] = arguments[_i];
+                        }
+                        if (window.Event && window.Event.prototype.isPrototypeOf(args[0])) {
+                            args[0].preventUpdate = true;
+                        }
+                        return store.dispatch(actions[actionName].apply(actions, args));
+                    };
+                });
+            }
+            _this.on('update', function () {                
+                if (service.selectorData !== undefined) {
+                    Object.keys(service.selectorData).forEach(function (key) {
+                        _this[key] = service.selectorData[key];
+                        if (typeof service.selectorData[key] == 'function') _this.update();
+                    });
+                }
+                if (isContainer) _this.update();
+            });
+            _this.update();
+        });
     }
 }
 
