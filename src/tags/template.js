@@ -10,8 +10,7 @@ function extend(d, element) {
 
 
 export function registerService(element, service) {
-    element.prototype.load = function () {
-      //  this.mixin(service);
+    element.prototype.load = function () {      
          var actions = service.actions;
         var selector = service.selector;
         var store = this.store;
@@ -42,17 +41,17 @@ export function registerService(element, service) {
                         return store.dispatch(actions[actionName].apply(actions, args));
                     };
                 });
-            }
-            _this.on('update', function () {                
-                if (service.selectorData !== undefined) {
-                    Object.keys(service.selectorData).forEach(function (key) {
-                        _this[key] = service.selectorData[key];
-                        if (typeof service.selectorData[key] == 'function') _this.update();
-                    });
-                }
-                if (isContainer) _this.update();
-            });
-            _this.update();
+            }     
+             _this.update();               
+        });
+
+        _this.on('update', function () {                
+            if (service.selectorData !== undefined) {
+                Object.keys(service.selectorData).forEach(function (key) {
+                    _this[key] = service.selectorData[key];
+                    if (typeof service.selectorData[key] == 'function') _this.update();
+                });
+            }            
         });
     }
 }
